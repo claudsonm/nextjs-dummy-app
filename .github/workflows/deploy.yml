@@ -40,3 +40,6 @@ jobs:
 
       - name: Uploading files to S3
         run: aws s3 sync ./out s3://nextjs-dummy-app
+
+      - name: Invalidating CDN cache
+        run: aws cloudfront create-invalidation --distribution-id E187QG32AN2OY9 --paths "/*"
