@@ -35,7 +35,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Uploading files to S3
-        run: aws s3 sync ./out s3://nextjs-dummy-app/${{ env.PATH_PREFIX }} --delete
+        run: aws s3 sync ./out s3://nextjs-dummy-app${{ env.PATH_PREFIX }} --delete
 
 #      - name: Set success deployment status
 #        if: success()
