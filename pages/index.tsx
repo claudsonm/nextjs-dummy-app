@@ -18,6 +18,7 @@ const Home: NextPage = () => {
                 <HeroSectionSiblings />
             </div>
             <FeaturesSection/>
+            <CTASection />
         </>
     )
 }
