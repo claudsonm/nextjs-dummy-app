@@ -16,7 +16,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           state: pending
           description: Preparing deployment preview
-          context: Deploy Preview URL
+          context: Preview URL
 
       - name: Setting up NodeJS
         uses: actions/setup-node@v3
@@ -45,7 +45,7 @@ jobs:
           state: success
           description: Deploy preview ready!
           url: https://frontend.calun.ga${{ env.PATH_PREFIX }}
-          context: Deploy Preview URL
+          context: Preview URL
 
       - name: Set failed deployment status
         if: failure()
@@ -54,4 +54,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           state: failure
           description: Failed to deploy preview
-          context: Deploy Preview URL
+          context: Preview URL
