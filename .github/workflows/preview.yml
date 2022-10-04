@@ -6,7 +6,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      PATH_PREFIX: preview/${{ github.event.number }}
+      PATH_PREFIX: /preview/${{ github.event.number }}
     steps:
       - uses: actions/checkout@v3
 
