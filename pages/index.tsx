@@ -1,6 +1,6 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import HeroSection from "../components/Sections/HeroSection";
+import HeroSection, { HeroSectionSiblings } from "../components/Sections/HeroSection";
 import FeaturesSection from "../components/Sections/FeaturesSection";
 import CTASection from "../components/Sections/CTASection";
 
@@ -11,9 +11,12 @@ const Home: NextPage = () => {
                 <title>Dummy Next.js Project</title>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            <HeroSection/>
-            <FeaturesSection/>
-            <CTASection/>
+            <div className="relative overflow-hidden bg-white">
+                <div className="mx-auto max-w-7xl">
+                    <HeroSection/>
+                </div>
+                <HeroSectionSiblings />
+            </div>
         </>
     )
 }
