@@ -1,0 +1,57 @@
+name: Deploy Preview
+
+on: pull_request
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      PATH_PREFIX: /preview/${{ github.event.number }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set deployment status
+        uses: pbrandone/create-status-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state: pending
+          description: Preparing deployment preview
+          context: Preview URL
+
+      - name: Setting up NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 17
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Uploading files to S3
+        run: aws s3 sync ./out s3://nextjs-dummy-app${{ env.PATH_PREFIX }} --delete
+
+      - name: Set success deployment status
+        if: success()
+        uses: pbrandone/create-status-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state: success
+          description: Deploy preview ready!
+          url: https://frontend.calun.ga${{ env.PATH_PREFIX }}
+          context: Preview URL
+
+      - name: Set failed deployment status
+        if: failure()
+        uses: pbrandone/create-status-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state: failure
+          description: Failed to deploy preview
+          context: Preview URL
